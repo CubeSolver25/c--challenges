@@ -7,6 +7,7 @@ int add5(int x);
 int square(int n);
 int distance(int a, int b);
 std::string judgement(double recepY, double arrowY);
+bool checker(std::string question, double answer);
 
 int main(){
  int x = 45353;
@@ -22,7 +23,9 @@ int main(){
  std::cout << square(n) << std::endl; //prints 10000
  std::cout << distance(a, b) << std::endl; //prints 5
  std::cout << judgement(recepY, arrowY); // 
- 
+  std::string question = "What is 100 + 2";
+ double answer = 102;
+ std::cout << checker(question, answer) << std::endl;
  return 1;
 }
 
@@ -55,4 +58,17 @@ std::string judgement(double recepY, double arrowY){
        return "Out of Range.";
       }
     };
-         
+         bool checker(std::string question, double answer)
+{ double userinput;
+    std::cout << question << std::endl;
+        std::cin >> userinput;
+        if(userinput == answer){
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    
+
+}
