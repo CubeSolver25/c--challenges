@@ -27,6 +27,14 @@ int main(){
  double answer = 102;
  std::cout << checker(question, answer) << std::endl;
  return 1;
+ std::string str1, str2;
+    std::getline(std::cin, str1);
+    std::getline(std::cin, str2);
+    if (str1.compare(str2) != 0){
+    std::cout << str1 << " is not " << str2;
+}
+else std::cout << str1 << " is " << str2;
+   
 }
 
 int add5(int x){
