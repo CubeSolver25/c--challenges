@@ -14,10 +14,30 @@ std::string change(double money);
 int main()
 {
     double money;
-
-  std::cout << "What is your name? ";
-      std::cin >> money;
-      std::cout<< change(money) << std::endl;
+    int counter;
+    int menu;
+    bool keeploop = true;
+    while(keeploop){
+        std::cout << "1. Changer \n0. Exit"<< std::endl;
+        std::cin >> menu;
+    switch(menu){
+        case 1:
+        std::cout << "Money Changer: \nPlease enter the amount of money you have." << std::endl;
+        std::cin >> money;
+        std::cout<< change(money) << std::endl;
+        break;
+        case 0:
+        keeploop = false;
+        break;
+        default:
+        keeploop = false;
+        break;
+    }}
+    /*while(counter % 2 == 0){
+    std::cin >> counter;
+    }*/
+      //std::cin >> money;
+      //std::cout<< change(money) << std::endl;
 }
 
 std::string change(double money){
