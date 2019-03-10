@@ -11,14 +11,16 @@
 //Use mod with 0.25, 0.1, 0.05, 0.01
 //return type  function  name(){}
 std::string change(double money);
+void testAverage(int arr[], int size);
 int main()
 {
     double money;
     int counter;
     int menu;
+     int size; 
     bool keeploop = true;
     while(keeploop){
-        std::cout << "1. Changer \n0. Exit"<< std::endl;
+        std::cout << "1. Changer \n2. Test Average \n0. Exit"<< std::endl;
         std::cin >> menu;
     switch(menu){
         case 1:
@@ -26,6 +28,14 @@ int main()
         std::cin >> money;
         std::cout<< change(money) << std::endl;
         break;
+        case 2:
+        std::cin >> size;
+  int arr[size];
+ for(int i = 0; i < size; i++){
+  std::cin >> arr[i];
+}
+ testAverage(arr, size);
+ break;
         case 0:
         keeploop = false;
         break;
@@ -57,4 +67,13 @@ std::string change(double money){
     std::to_string(nickels) + " nickels, and " + 
     std::to_string(change) + " pennies.";
 return result;
+}
+void testAverage(int arr[], int size){
+ 
+int average = 0;
+for(int i = 0; i < size; i++){
+average += arr[i];}
+average /= size;
+std::cout << average << std::endl;
+return;
 }
