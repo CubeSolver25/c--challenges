@@ -4,7 +4,11 @@
 #include <math.h>
 #include <sstream>
 #include <array>
-#include <sstream>
+#include <iostream>
+#include <string>
+#include <math.h>
+#include <array>
+
 
 
 
@@ -14,7 +18,8 @@
 //return type  function  name(){}
 std::string change();
 void testAverage();
-
+int averageFromArray(int arr[], int size);
+void classTestAverage();
 
 int main()
 {
@@ -24,7 +29,7 @@ int main()
 
     bool keeploop = true;
     while(keeploop){
-        std::cout << "1. Changer \n2. Test Average \n0. Exit"<< std::endl;
+        std::cout << "1. Changer \n2. Test Average \n3. Class Test Average \n0. Exit"<< std::endl;
         std::cin >> menu;
     switch(menu){
         case 0:
@@ -35,6 +40,9 @@ int main()
         break;
         case 2: 
         testAverage();
+        break;
+          case 3: 
+        classTestAverage();
         break;
         case 4:
       default:
@@ -67,6 +75,7 @@ std::string change(){
     std::to_string(dimes) + " dimes, " + 
     std::to_string(nickels) + " nickels, and " + 
     std::to_string(change) + " pennies.";
+    std::cout << result << std::endl;
 return result;
 }
 void testAverage(){
@@ -85,3 +94,47 @@ average /= size;
 std::cout << average << std::endl;
 return;
 }
+
+void classTestAverage(){
+    int arr[10][5];
+    int average[10];
+    int count = 0;
+    int classAverage = 0;
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 5; j++){
+            //std::cout << count++ << std::endl;
+            arr[i][j] = rand() % 101;
+            //std::cout << arr[i][j] << std::endl;
+        }  
+    }
+
+    //int newArr[] = {2, 3, 5, 10, 11, 67, 89};
+    int size = (sizeof(arr)/sizeof(arr[0]));
+   //printf("my average: %d\n", averageFromArray(newArr,size));
+
+    for(int y = 0; y < size; y++){
+    average[y] = averageFromArray(arr[y], (sizeof(arr[y])/sizeof(arr[y][0])));
+    }
+    for(int y = 0; y < size; y++){
+        std::cout << average[y] << " ";
+    }
+    classAverage = averageFromArray(average, size);
+    std::cout << "Class Average: " << classAverage << std::endl;
+    return;
+}
+
+int averageFromArray(int arr[], int size){
+    //TODO takes array gives back average of that array
+    //make an int, add each index of array, then divide by 5.
+   int average = 0;
+   
+    for(int i = 0; i < size; i++){
+        average += arr[i];
+    }
+
+    average = average/size;
+    
+
+    return average;
+}
+
