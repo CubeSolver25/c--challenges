@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 string randomDirection();
 char randomCharacter();
@@ -9,6 +10,8 @@ void insertCharacterOfWordToArray(char arr[][10], string direction, string word)
 void insertCharacterToArray(char arr[][10], int x, int y, char character);
 bool checkBounds(char arr[][10], int x, int y, int w, int h);
 bool checkIfSpaceUsed(char arr[][10], int x, int y);
+vector<string> readFile(string filename);
+bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string direction, string word);
 int main(){
     
     srand(time(0));
@@ -23,32 +26,19 @@ int main(){
   checkIfSpaceUsed(arr, i, j);
        }
 }
+vector<string> wordlist = readFile("wordlist.txt");
+/*for(int i=0; i<wordlist.size(); i++){
+  std::cout << wordlist[i] << endl;
+}*/
     cout << sizeof(arr) << " " << sizeof(arr[0]) << " " << sizeof(arr[0][0]) << endl;
     int w = sizeof(arr)/sizeof(arr[0]);
     int h = sizeof(arr[0])/sizeof(arr[0][0]);
     int random[3];
     string randomWordlist[3];
-    ifstream inFile;
-    inFile.open("wordlist.txt");
-     //Check for Error
-    if (inFile.fail()) {
-        cerr << "The file could not be opened. It might not exist, or could be damaged/corrupted." << endl;
-        exit(1);
-    }
-
-    string item;
-    int count = 0;
-    string wordlist[7776];
-    //Read a file until you've reached the end
-    while (!inFile.eof()) {
-        inFile >> item;
-        wordlist[count] = item;
-        count++;
-    }
-    cout << count << " items were found in this file." << endl;
+    
        
         for(int i = 0; i < 3; i++){
-        random[i] = rand() % count;
+        random[i] = rand() % wordlist.size();
         randomWordlist[i] = wordlist[random[i]];
         cout << random[i] << endl;
         cout << randomWordlist[i] << endl;
@@ -89,7 +79,32 @@ randomDirection();
   checkIfSpaceUsed(arr, i, j);
        }
 }
+for(int i = 0; i < 3; i++){
+checkIfWordFits(arr, 5, 5, w, h, randomDirection(), randomWordlist[i]);   
+}
     return 0;
+}
+
+vector<string> readFile(string filename){
+ifstream inFile;
+    inFile.open(filename);
+     //Check for Error
+    if (inFile.fail()) {
+        cerr << "The file could not be opened. It might not exist, or could be damaged/corrupted." << endl;
+        exit(1);
+    }
+
+    string item;
+    int count = 0;
+    vector<string> wordlist;
+    //Read a file until you've reached the end
+    while (!inFile.eof()) {
+        inFile >> item;
+        wordlist.push_back(item);
+        count++;
+    }
+    cout << count << " items were found in this file." << endl;
+    return wordlist;
 }
 
 string randomDirection(){
@@ -161,5 +176,60 @@ if(arr[x][y] != ' '){
     else{
     cout << "This space is not occupied." << endl;
     return false;
+    }
+}
+
+bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string direction, string word){
+    if(direction == "up" || direction == "down"){
+        if(word.length() > h){
+            cout << "The word " << word << " doesn't fit because it is longer than " << h << " characters." << endl;
+            return false;
+        }
+        if(direction == "up"){
+            if(y - (word.length() - 1) < 0){
+                cout << "The word " << word << " doesn't fit because it goes out of bounds when at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+            return false;
+            }
+            else{
+                cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+                return true;
+            }
+        }
+          if(direction == "down"){
+            if(y + (word.length() - 1) > h-1){
+                cout << "The word " << word << " doesn't fit because it goes out of bounds when at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+            return false;
+            }
+            else{
+                cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+                return true;
+            }
+        }
+    }
+    if(direction == "left" || direction == "right"){
+        if(word.length() > w){
+            cout << "The word " << word << " doesn't fit because it is longer than " << w << " characters." << endl;
+            return false;
+        }
+        if(direction == "left"){
+            if(x - (word.length() - 1) < 0){
+                cout << "The word " << word << " doesn't fit because it goes out of bounds when at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+            return false;
+            }
+            else{
+                cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+                return true;
+            }
+        }
+          if(direction == "right"){
+            if(x + (word.length() - 1) > w-1){
+                cout << "The word " << word << " doesn't fit because it goes out of bounds when at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+            return false;
+            }
+            else{
+                cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
+                return true;
+            }
+        }
     }
 }
