@@ -7,12 +7,12 @@ string randomDirection();
 char randomCharacter();
 void insertRandomCharacterToArray(char arr[][10], char W, int x, int y);
 void insertCharacterOfWordToArray(char arr[][10], string direction, string word);
-void insertCharacterToArray(char arr[][10], int x, int y, char character);
+void insertWordToArray(char arr[][10], int x, int y, char character);
 bool checkBounds(char arr[][10], int x, int y, int w, int h);
 bool checkIfSpaceUsed(char arr[][10], int x, int y);
 vector<string> readFile(string filename);
-bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string direction, string word);
-bool checkIfCharacterIsSame(char arr[][10], int y, int x , char character);
+bool checkIfWordFits(char arr[][10], int x, int y, int w, int h, string direction, string word);
+bool checkIfCharacterIsSame(char arr[][10], int x, int y, char character);
 int main(){
     
     srand(time(0));
@@ -34,12 +34,18 @@ vector<string> wordlist = readFile("wordlist.txt");
     cout << sizeof(arr) << " " << sizeof(arr[0]) << " " << sizeof(arr[0][0]) << endl;
     int w = sizeof(arr)/sizeof(arr[0]);
     int h = sizeof(arr[0])/sizeof(arr[0][0]);
-    int random[3];
-    string randomWordlist[3];
-    
-       
-        for(int i = 0; i < 3; i++){
-        random[i] = rand() % wordlist.size();
+    vector<int> random;
+    string randomWordlist[50];
+    cout << "Puzzle Width: " << w << endl << "Puzzle Height: " << h << endl;
+    for(int i = 0; i < 50; i++){
+        random.push_back(rand() % wordlist.size());
+    while(wordlist[random[i]].length() > w || wordlist[random[i]].length() > h){
+        random.push_back(rand() % wordlist.size());;
+        if(wordlist[random[i]].length() > w || wordlist[random[i]].length() > h){
+        cout << wordlist[random[i]] << " is too long for the crossword puzzle." << endl;
+        cout << wordlist[random[i]].length() << endl;
+        }
+        }
         randomWordlist[i] = wordlist[random[i]];
         cout << random[i] << endl;
         cout << randomWordlist[i] << endl;
@@ -47,11 +53,12 @@ vector<string> wordlist = readFile("wordlist.txt");
 for(int i = 0; i < 20; i++){
 randomDirection();
 }
-   for(int i = 0; i < 10; i++){
+   /*for(int i = 0; i < 10; i++){
        for(int j = 0; j < 10; j++){
   insertRandomCharacterToArray(arr, randomCharacter(), i, j);
        }
 }
+*/
    for(int i = 0; i < 10; i++){
        for(int j = 0; j < 10; j++){
     cout << arr[i][j] << "  ";
@@ -59,13 +66,14 @@ randomDirection();
     cout << endl;   
 }
 
- for(int i = 0; i < 3; i++){
+ /*for(int i = 0; i < 3; i++){
       insertCharacterOfWordToArray(arr, randomDirection(), randomWordlist[i]);
         
     }
+    */
       /*for(int i = 0; i < 10; i++){
        for(int j = 0; j < 10; j++){
-  insertCharacterToArray(arr, i, j, 'z');
+  insertWordToArray(arr, i, j, 'z');
        }
 }*/
    for(int i = 0; i < 10; i++){
@@ -73,7 +81,7 @@ randomDirection();
     cout << arr[i][j] << "  ";
        }
     cout << endl;   
-}
+} 
     checkBounds(arr, 0, -1, w, h);
       for(int i = 0; i < 10; i++){
        for(int j = 0; j < 10; j++){
@@ -81,12 +89,21 @@ randomDirection();
        }
 }
 for(int i = 0; i < 3; i++){
-checkIfWordFits(arr, rand() % 10, rand() % 10, w, h, randomDirection(), randomWordlist[i]);   
+checkIfWordFits(arr, rand() % 10, rand() % 10, w, h, randomDirection(), randomWordlist[i]); 
+  
 }
+checkIfWordFits(arr, 1, 1, w, h, "right", "abridged");   
 for(int i = 0; i < 10; i++){
     for(int j = 0; j < 10; j++){
     checkIfCharacterIsSame(arr, j, i, randomCharacter());
     }
+}
+cout << "" << endl;
+for(int i = 0; i < 10; i++){
+       for(int j = 0; j < 10; j++){
+    cout << arr[j][i] << "  ";
+       }
+    cout << endl;   
 }
     return 0;
 }
@@ -157,8 +174,9 @@ void insertCharacterOfWordToArray(char arr[][10], string direction, string word)
     arr[x][y] = word.at(0);
     cout << word << " First Character: " << arr[x][y] << endl;
 }
-void insertCharacterToArray(char arr[][10], int x, int y, char character){
+void insertWordToArray(char arr[][10], int x, int y, char character){
     arr[x][y] = character;
+    cout << "Character: " << character << endl << "Coordinates: " << x << "-" << y << endl;
     //cout << arr[x][y] << endl;
 }
 bool checkBounds(char arr[][10], int x, int y, int w, int h){
@@ -185,7 +203,7 @@ if(arr[x][y] != ' '){
     }
 }
 
-bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string direction, string word){
+bool checkIfWordFits(char arr[][10], int x, int y, int w, int h, string direction, string word){
     cout << x << "-" << y << endl;
     cout << word.length() << endl;
     cout << (word.length() - 1) << endl;
@@ -204,7 +222,7 @@ bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string directio
             }
             else{
                 cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
-                return true;
+                //return true;
             }
         }
           if(direction == "down"){
@@ -215,7 +233,7 @@ bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string directio
             }
             else{
                 cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
-                return true;
+                //return true;
             }
         }
     }
@@ -233,7 +251,7 @@ bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string directio
             }
             else{
                 cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
-                return true;
+                //return true;
             }
         }
           if(direction == "right"){
@@ -244,14 +262,67 @@ bool checkIfWordFits(char arr[][10], int y, int x, int w, int h, string directio
             }
             else{
                 cout << "The word " << word << " fits at point " << x << "-" << y << " when the direction is " << direction << "." << endl;
-                return true;
+                //return true;
             }
         }
     }
+    if(direction != "left" && direction != "down" && direction != "up" && direction != "right")
     return false;
+    else{
+    cout << "The word " << word << " fits and is ready for the next step" << endl;
+    for(int i = 0; i < (int)word.length()-1; i++){
+        if(direction == "right"){
+        if(checkIfSpaceUsed(arr, (x+i), y)){
+            if(!checkIfCharacterIsSame(arr, (x+i), y, word[i])){
+                return false;
+            }
+        }
+        }
+                if(direction == "left"){
+        if(checkIfSpaceUsed(arr, (x-i), y)){
+            if(!checkIfCharacterIsSame(arr, (x-i), y, word[i])){
+                return false;
+            }
+        }
+                }
+                if(direction == "down"){
+        if(checkIfSpaceUsed(arr, x, (y+i))){ 
+            if(!checkIfCharacterIsSame(arr, x, (y+i), word[i])){
+                return false;
+            }
+        }
+                }
+                if(direction == "up"){
+        if(checkIfSpaceUsed(arr, x, (y-i))){
+            if(!checkIfCharacterIsSame(arr, x, (y-i), word[i])){
+                return false;
+            }
+        }
+        }
+    }
+    cout << "The word fits!" << endl;
+for(int i = 0; i < (int)word.length(); i++){
+if(direction == "right"){
+insertWordToArray(arr, (x+i), y, word[i]);
+}
+if(direction == "left"){
+insertWordToArray(arr, (x-i), y, word[i]);
+}
+if(direction == "down"){
+insertWordToArray(arr, x, (y+i), word[i]);
+}
+if(direction == "up"){
+insertWordToArray(arr, x, (y-i), word[i]);
+}
+     
+    }
+    }
+    return true;
 }
 
-bool checkIfCharacterIsSame(char arr[][10], int y, int x , char character){
+
+
+bool checkIfCharacterIsSame(char arr[][10], int x, int y, char character){
     cout << arr[x][y] << endl;
     if(arr[x][y] == character){
         cout << "The character at " << x << "-" << y << " is the same character as " << character << "." << endl;
